@@ -1,0 +1,28 @@
+on:
+  pull_request:
+    branches:
+      - main
+
+env:
+  ENVIRONMENT: test
+jobs:
+  terraform:
+    name: "Terraform Plan"
+    runs-on: ubuntu-latest
+    environment: test
+
+  defaults:
+    run:
+      shell: bash
+      working-directory: ./iac
+
+  steps:
+    - name: Terraform Init
+      run: terraform init
+      env:
+        GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
+
+    - name: Terraform Plan
+      run: terraform plan -var-file=$ENVIRONMENT.tfvars
+      env:
+        GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
