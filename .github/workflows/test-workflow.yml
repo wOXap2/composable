@@ -2,6 +2,9 @@ on:
   pull_request:
     branches:
       - main
+  push:
+    branches:
+      - main
 
 env:
   ENVIRONMENT: test
@@ -35,7 +38,7 @@ jobs:
       - name: Terraform Plan
         id: plan
         if: github.event_name == 'pull_request'
-        run: terraform plan -var-file=$ENVIRONMENT.tfvars
+        run: terraform plan -no-color -var-file=$ENVIRONMENT.tfvars
         env:
           GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
 
