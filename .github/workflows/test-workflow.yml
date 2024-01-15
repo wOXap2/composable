@@ -5,6 +5,7 @@ on:
 
 env:
   ENVIRONMENT: test
+
 jobs:
   terraform:
     name: "Terraform Plan"
@@ -17,6 +18,14 @@ jobs:
       working-directory: ./iac
 
   steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup TF version
+      uses: hashicorp/setup-terraform@v2
+      with:
+        terraform_version: 1.3.6
+
     - name: Terraform Init
       run: terraform init
       env:
